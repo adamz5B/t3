@@ -55,7 +55,7 @@ The database scripts can be found in text file in drivers management catalogue.
 Creation timestamp is intended for future use.
 
 ---
-### 3. Fare prices calculation - [faresinfo](/fareinfo)
+### 3. Fare prices calculation - [faresinfo](/faresinfo)
 It's implemented in JavaEE with Angular frontend. In prototype version it only supports fare calculation for single distance value provided in the fare information CSV file (embedded within EJB). 
 #### CSV file format
 ````
