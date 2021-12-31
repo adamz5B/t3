@@ -1,0 +1,14 @@
+ruby {
+    margin-right: 1%;
+}
+.index {
+    width: 5%;
+    display: inline-block;
+}
+.li-content {
+    width: 13%;
+    display: inline-block;
+}
+.control {
+    float: right;
+}

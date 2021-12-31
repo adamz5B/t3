@@ -1,0 +1,11 @@
+*.dll
+*.exe
+
+/bin
+/dist
+wwwroot/app
+wwwroot/css
+wwwroot/js
+wwwroot/lib
+obj/
+Data/Migrations

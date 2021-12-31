@@ -1,0 +1,22 @@
+ul.faresinfo {
+    list-style-type: none;
+}
+.cell {
+    width: 9vw;
+    padding-right: 1vw;
+    display: inline-block;
+}
+ul.faresinfo > li:first-child {
+    font-size: larger;
+    font-weight: bold;
+}
+ul.faresinfo > li:nth-child(odd) {
+    background-color: #eee;
+}
+ul.faresinfo > li:hover {
+    font-size: large;
+    background-color: #ddd;
+}
+.taxi {
+    background-color: yellow;
+}

@@ -1,0 +1,34 @@
+This procedure is valid for localhost db on WindowsOS with integrated security, in other cases, following it maybe as helpful as dangerous.
+
+1. Download official JDBC driver from this url: https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server
+2. In WildFly's directory, in modules make valid directories structure e.g. like this "com\microsoft\sqlserver\mssql-jdbc\main" 
+3. In "main" folder paste jdbc jar file (e.g. mssql-jdbc-<version>.jre<java_version e.g. 11>) and create module.xml file with content like this:
+    <module xmlns="urn:jboss:module:1.1" name="<path from 2nd point without "main">">
+        <resources>
+            <resource-root path="mssql-jdbc-<version>.jre<java_version>.jar"/>
+        </resources>
+        <dependencies>
+            <module name="javax.api"/>
+            <module name="javax.transaction.api"/>
+        </dependencies>
+    </module>
+4. mssql-jdbc_auth-9.4.1.x<64 or 86>.dll from unziped JDBC driver catalogue/auth needs to be copied/moved to catalogue defined for java.library.path.
+5. Modify standalone.xml:
+    <subsystem xmlns="urn:jboss:domain:datasources:6.0">
+            ...
+            <datasource jndi-name="java:/<jndi-name e.g. MSSQLDS>" pool-name="<e.g. MSSQLPool>">
+                <connection-url>jdbc:sqlserver://localhost[:port];databaseName=<database_name>;integratedSecurity=true;</connection-url>
+                <driver>mssql</driver>                    
+            </datasource>
+            <drivers>
+                ...
+                <!--Driver configuration for both non-XA and XA datasources-->
+                <driver name="mssql" module="<name defined in module.xml in 3rd point>">
+                    <driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
+                    <xa-datasource-class>com.microsoft.sqlserver.jdbc.SQLServerXADataSource</xa-datasource-class>
+                </driver>
+            </drivers>
+        </datasources>
+    </subsystem>
+6. Start WildFly server and test connection.
+

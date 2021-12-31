@@ -1,0 +1,13 @@
+[
+  {
+    "id": 0,
+    "name": "a",
+    "surname": "a",
+    "nameFurigana": "\u30A2",
+    "surnameFurigana": "\u30A2",
+    "email": "a@b.jp",
+    "vehicleType": "x",
+    "baseFarePrice": 200,
+    "baseFareDistance": 100
+  }
+]

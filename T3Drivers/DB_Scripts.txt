@@ -1,0 +1,95 @@
+﻿--Driver table create script
+CREATE TABLE Driver (
+	Id INT IDENTITY (1, 1) NOT NULL,
+	Name VARCHAR(MAX),
+	Surname VARCHAR(MAX),
+	NameFurigana VARCHAR(MAX),
+	SurnameFurigana VARCHAR(MAX),
+	Email VARCHAR(256),
+	VehicleType VARCHAR(50),
+	BaseFarePrice FLOAT,
+	BaseFareDistance FLOAT,
+	Cdate DATETIME2,
+	Mdate DATETIME2,
+	CONSTRAINT [PK_dbo.Driver] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE FaresHistory (
+	Id INT IDENTITY (1, 1) NOT NULL,
+	DriverId INT,
+	FareData VARCHAR(64),	
+	PersistedFare FLOAT,
+	Cdate DATETIME2,
+	Mdate DATETIME2,
+	FOREIGN KEY (DriverId) REFERENCES Driver(Id),
+	CONSTRAINT [PK_dbo.FaresHistory] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+--Changing crutial fields do use UTF-8
+
+ALTER TABLE dbo.Driver
+ALTER COLUMN NameFurigana VARCHAR(MAX) COLLATE Latin1_General_100_CI_AI_SC_UTF8
+ALTER TABLE dbo.Driver
+ALTER COLUMN [Name] VARCHAR(MAX) COLLATE Latin1_General_100_CI_AI_SC_UTF8
+ALTER TABLE dbo.Driver
+ALTER COLUMN SurnameFurigana VARCHAR(MAX) COLLATE Latin1_General_100_CI_AI_SC_UTF8
+ALTER TABLE dbo.Driver
+ALTER COLUMN Surname VARCHAR(MAX) COLLATE Latin1_General_100_CI_AI_SC_UTF8
+ALTER TABLE dbo.Driver
+ALTER COLUMN Email VARCHAR(256) COLLATE Latin1_General_100_CI_AI_SC_UTF8
+
+--Sets create and modification date on insert for Driver table
+
+CREATE TRIGGER insertCreateDateDriver
+ON  dbo.Driver
+AFTER INSERT 
+AS  
+BEGIN 
+    UPDATE dbo.Driver
+    SET Cdate = SYSDATETIME ( ) , Mdate = SYSDATETIME ( ) 
+    FROM dbo.Driver
+    INNER JOIN inserted i on i.Id = dbo.Driver.Id
+END  
+GO
+
+--Sets modification date on update
+
+CREATE TRIGGER updateModifyDateDriver
+ON  dbo.Driver
+AFTER UPDATE 
+AS  
+BEGIN 
+    UPDATE dbo.Driver
+    SET Mdate = SYSDATETIME ( ) 
+    FROM dbo.Driver
+    INNER JOIN inserted i on i.Id = dbo.Driver.Id
+END  
+GO
+
+--Sets create and modification date on insert for FaresHistory table
+
+CREATE TRIGGER insertCreateDateFaresHistory
+ON  dbo.FaresHistory
+AFTER INSERT 
+AS  
+BEGIN 
+    UPDATE dbo.FaresHistory
+    SET Cdate = SYSDATETIME ( ) , Mdate = SYSDATETIME ( ) 
+    FROM dbo.FaresHistory
+    INNER JOIN inserted i on i.Id = dbo.FaresHistory.Id
+END  
+GO
+
+--Sets modification date on update
+
+CREATE TRIGGER updateModifyDateFaresHistory
+ON  dbo.FaresHistory
+AFTER UPDATE 
+AS  
+BEGIN 
+    UPDATE dbo.FaresHistory
+    SET Mdate = SYSDATETIME ( ) 
+    FROM dbo.FaresHistory
+    INNER JOIN inserted i on i.Id = dbo.FaresHistory.Id
+END  
+GO

@@ -1,0 +1,152 @@
+<div *ngIf="drivers.length > 0; else loading">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="index">No.</div>
+      <div class="li-content">
+        <strong>Surname</strong>
+      </div>
+      <div class="li-content">
+        <strong>Name</strong>
+      </div>
+      <div class="li-content">
+        <strong>E-mail</strong>
+      </div>
+      <div class="li-content">
+        <strong>Vehicle Type</strong>
+      </div>
+      <div class="li-content">
+        <strong>Base Fare Price</strong>
+      </div>
+      <div class="li-content">
+        <strong>Base Fare Distance</strong>
+      </div>
+    </li>
+    <li *ngFor="let driver of drivers; let i = index" [attr.data-index]="i" class="list-group-item">
+      <div class="index">{{i+1}}</div>
+      <div class="li-content">
+        <ruby>{{driver.surname}}<rt>{{driver.surnameFurigana}}</rt></ruby>
+      </div>
+      <div class="li-content">
+        <ruby>{{driver.name}}<rt>{{driver.nameFurigana}}</rt></ruby>
+      </div>
+      <a class="li-content" href="mailto:{{driver.email}}">{{driver.email}}</a>
+      <div class="li-content">
+        {{vehicleType(driver.vehicleType).symbol}}-{{vehicleType(driver.vehicleType).description}}
+      </div>
+      <div class="li-content">
+        {{driver.baseFarePrice}}
+      </div>
+      <div class="li-content">
+        {{driver.baseFareDistance}}
+      </div>
+      <div class="li-content">
+        <button class="btn" (click)="editModeFor(driver.id)">✏</button>
+        <button class="btn btn-danger" (click)="deleteModeFor(driver.id)" data-toggle="modal"
+          data-target="#delConfModal">🗑</button>
+      </div>
+    </li>
+  </ul>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
+<div *ngIf="modalShow" class="modal fade in" aria-hidden="false" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+          (click)="cancelDelete()">&times;</button>
+        <h4 class="modal-title">Delete confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-danger">Do you really want to <strong>delete</strong> record for e-mail:
+          {{getEmail(toBeDeleted)||""}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="commitDelete(toBeDeleted)">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn" (click)="createMode()">Add new</button>
+<div *ngIf="editableEnabled">
+  <div *ngIf="editMode; else crtLabel">
+    <p>Edit</p>
+  </div>
+  <ng-template #crtLabel>
+    <p>Create</p>
+  </ng-template>
+  <div *ngIf="editableDriver">
+    <form (ngSubmit)="onSubmit(editMode)" #driverForm="ngForm" class="submit-form">
+      <div class="form-group">
+        <label for="nameFurigana">Furigana</label>
+        <input type="text" class="form-control" id="nameFurigana" required [(ngModel)]="editableDriver.nameFurigana"
+          name="nameFurigana" #nameFurigana="ngModel" />
+        <div [hidden]="nameFurigana.valid || nameFurigana.pristine" class="alert alert-danger">
+          Name's furigana is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" required [(ngModel)]="editableDriver.name" name="name"
+          #name="ngModel" />
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+          Name is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="surnameFurigana">Furigana</label>
+        <input type="text" class="form-control" id="surnameFurigana" required
+          [(ngModel)]="editableDriver.surnameFurigana" name="surnameFurigana" #surnameFurigana="ngModel" />
+        <div [hidden]="surnameFurigana.valid || surnameFurigana.pristine" class="alert alert-danger">
+          Surname's furigana is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-control" id="surname" required [(ngModel)]="editableDriver.surname"
+          name="surname" #surname="ngModel" />
+        <div [hidden]="surname.valid || surname.pristine" class="alert alert-danger">
+          Surname is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" id="email" required [(ngModel)]="editableDriver.email" name="email"
+          #email="ngModel" ngModel email="true" />
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          E-mail is required and must be provided in valid format
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="vehicleType">Vehicle Type</label>
+        <select type="text" class="form-control" id="vehicleType" required [(ngModel)]="editableDriver.vehicleType"
+          name="vehicleType" #vehicleType="ngModel">
+          <option *ngFor="let vt of vehicleTypes" [value]="vt.code">{{vt.description}} - {{vt.symbol}}</option>
+        </select>
+        <div [hidden]="vehicleType.valid || vehicleType.pristine" class="alert alert-danger">
+          Vehicle type must be selected
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="baseFarePrice">Base Fare Price</label>
+        <input type="text" class="form-control" id="baseFarePrice" required [(ngModel)]="editableDriver.baseFarePrice"
+          name="baseFarePrice" #baseFarePrice="ngModel" />
+        <div [hidden]="baseFarePrice.valid || baseFarePrice.pristine" class="alert alert-danger">
+          Base Fare Price is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="baseFareDistance">Base Fare Distance</label>
+        <input type="text" class="form-control" id="baseFareDistance" required
+          [(ngModel)]="editableDriver.baseFareDistance" name="baseFareDistance" #baseFareDistance="ngModel" />
+        <div [hidden]="baseFareDistance.valid || baseFareDistance.pristine" class="alert alert-danger">
+          Base Fare Distance is required
+        </div>
+      </div>
+      <button (click)="editableMode(false)">Close</button>
+      <button type="submit" class="btn btn-success" [disabled]="!driverForm.form.valid">Submit</button>
+    </form>
+  </div>
+</div>

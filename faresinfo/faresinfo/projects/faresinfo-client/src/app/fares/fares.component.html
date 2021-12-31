@@ -1,0 +1,17 @@
+<p>Fares for distance: 200</p>
+<div *ngIf="faresInfo.length > 0; else loading">
+    <ul class="faresinfo">
+        <li *ngFor="let fareInfo of faresInfo; let i = index" [attr.data-index]="i">
+            <div class="cell {{fareInfo.transportType}}">{{i+1}}</div>
+            <div class="cell"><ruby>{{fareInfo.surname}}<rt>{{fareInfo.surnameFurigana}}</rt></ruby></div>
+            <div class="cell"><ruby>{{fareInfo.name}}<rt>{{fareInfo.nameFurigana}}</rt></ruby></div>
+            <div class="cell"><a href="mailto:{{fareInfo.email}}">✉</a></div>
+            <div class="cell"><ruby>{{vehicleTypeGraphic(fareInfo.vehicleType)}}<rt>
+                        {{vehicleTypeDescription(fareInfo.vehicleType)}}</rt></ruby></div>
+            <div class="cell"><strong>{{fareInfo.farePrice}}</strong></div>
+        </li>
+    </ul>
+</div>
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>

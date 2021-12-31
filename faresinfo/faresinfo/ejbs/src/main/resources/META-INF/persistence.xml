@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" 
+                xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="appDS_PU"  transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/MSSQLDS</jta-data-source>
+        <class>pl.adamzylinski.t3.ejb.DriversBean</class>
+        <class>pl.adamzylinski.t3.ejb.models.Driver</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>        
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform" />
+            <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+            <property name="wildfly.jpa.twophasebootstrap" value="false" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+        </properties>
+    </persistence-unit>    
+</persistence>
