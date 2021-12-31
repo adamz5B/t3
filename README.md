@@ -15,7 +15,7 @@ The technology stack for this project:
 * Fare prices calculation back-end: JavaEE (compiled with Java 11.0.12, Maven 3.6.1) with WildFly server (version preview-26.0.0.Final)
 * Both service's frontends: Angular (cli 12.2.14, typescript 4.3.5)
 ---
-### 2. Drivers management - [T3Drivers](../T3Drivers)
+### 2. Drivers management - [T3Drivers](/T3Drivers)
 It's done by simple crud application. On client side it utilizes Angular application with usage of FormsModule and Twitter Bootstrap's styles. Server side hosts angular application and handles WebAPI interface. It connects to MS SQL database.
 
 All fields are required and e-mail address must be provided in correct format.
@@ -55,7 +55,7 @@ The database scripts can be found in text file in drivers management catalogue.
 Creation timestamp is intended for future use.
 
 ---
-### 3. Fare prices calculation - [faresinfo](../fareinfo)
+### 3. Fare prices calculation - [faresinfo](/fareinfo)
 It's implemented in JavaEE with Angular frontend. In prototype version it only supports fare calculation for single distance value provided in the fare information CSV file (embedded within EJB). 
 #### CSV file format
 ````
