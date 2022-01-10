@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,6 +14,7 @@ import pl.adamzylinski.t3.ejb.models.Driver;
 import pl.adamzylinski.t3.ejb.models.FareData;
 
 public class DriversTest extends TestCase {
+    private static final Logger LOGGER = Logger.getLogger(DriversTest.class.getName());
 
     @BeforeClass
     public void setUp() {
@@ -33,7 +35,7 @@ public class DriversTest extends TestCase {
             List<FareData> list = fdp.getFareDataFromFile();
             assertTrue(list.size() > 0);
         } catch (IOException e) {
-            System.err.println(e.getLocalizedMessage());
+            LOGGER.severe(e.getLocalizedMessage());
             assertFalse(true);
         }
     }

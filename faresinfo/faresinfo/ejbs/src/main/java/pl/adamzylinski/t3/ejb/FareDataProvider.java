@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import pl.adamzylinski.t3.ejb.models.FareData;
 
@@ -14,6 +15,7 @@ import pl.adamzylinski.t3.ejb.models.FareData;
  * resource folder of EJB.
  */
 public class FareDataProvider {
+    private static final Logger LOGGER = Logger.getLogger(FareDataProvider.class.getName());
     public static final String FILE_NAME = "fare_data.csv";
     public static final String COMMA = ",";
     public static final int DIST_INDEX = 0;
@@ -41,8 +43,7 @@ public class FareDataProvider {
                         Double.parseDouble(values[CPD_INDEX])));
             }
         } catch (NumberFormatException e) {
-            // Since log4j had its issues nowadays...
-            System.err.println("Value cannot be parsed: " + e.getLocalizedMessage());// NOSONAR
+            LOGGER.severe("Value cannot be parsed: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
         return data;

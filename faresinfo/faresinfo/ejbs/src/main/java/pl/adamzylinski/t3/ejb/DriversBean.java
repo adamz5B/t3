@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ejb.LocalBean;
@@ -23,6 +24,7 @@ import pl.adamzylinski.t3.ejb.models.FaresHistory;
 @Stateless
 @LocalBean
 public class DriversBean implements FareCalcBeanI<Driver> {
+    private static final Logger LOGGER = Logger.getLogger(DriversBean.class.getName());
 
     @PersistenceContext(unitName = "appDS_PU")
     EntityManager entityManager;
@@ -40,9 +42,8 @@ public class DriversBean implements FareCalcBeanI<Driver> {
             // distance in given collection. However in current cirrcumstances this approach
             // will suffice
             fareData = fdp.getFareDataFromFile().stream().findFirst().get();// NOSONAR
-        } catch (IOException | NoSuchElementException e) {
-            // Since log4j had its issues nowadays...
-            System.err.println("Could not load CSV file content");// NOSONAR
+        } catch (IOException | NoSuchElementException e) {         
+            LOGGER.severe("Could not load CSV file content");
             return Collections.emptyMap();
         }
         List<Driver> drivers = getAllDrivers();
