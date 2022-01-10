@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import pl.adamzylinski.t3.common.MeanOfTransportI;
+
 import java.sql.Timestamp;
 
 @Entity
@@ -15,7 +18,7 @@ import java.sql.Timestamp;
 @NamedQueries({
         @NamedQuery(name = "Drivers.getAll", query = "from Driver")
 })
-public class Driver {
+public class Driver implements MeanOfTransportI {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id")

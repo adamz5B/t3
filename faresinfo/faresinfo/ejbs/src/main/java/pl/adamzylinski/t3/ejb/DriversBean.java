@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import pl.adamzylinski.t3.common.FareCalcBeanI;
 import pl.adamzylinski.t3.ejb.models.Driver;
 import pl.adamzylinski.t3.ejb.models.FareData;
 import pl.adamzylinski.t3.ejb.models.FaresHistory;
@@ -42,7 +44,7 @@ public class DriversBean implements FareCalcBeanI<Driver> {
             // distance in given collection. However in current cirrcumstances this approach
             // will suffice
             fareData = fdp.getFareDataFromFile().stream().findFirst().get();// NOSONAR
-        } catch (IOException | NoSuchElementException e) {         
+        } catch (IOException | NoSuchElementException e) {
             LOGGER.severe("Could not load CSV file content");
             return Collections.emptyMap();
         }
@@ -71,5 +73,10 @@ public class DriversBean implements FareCalcBeanI<Driver> {
             entityManager.merge(
                     new FaresHistory(set.getKey(), fareData.getCSV(), set.getValue()));
         }
+    }
+
+    @Produces
+    public DriversBean getDriversBean() {
+        return this;
     }
 }

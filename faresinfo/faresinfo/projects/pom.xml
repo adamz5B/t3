@@ -7,7 +7,7 @@
   <parent>
     <groupId>pl.adamzylinski.t3</groupId>
     <artifactId>faresinfo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>projects</artifactId>
@@ -16,6 +16,7 @@
   <name>sub projects</name>
 
   <modules>
+    <module>common</module>
     <module>faresinfo-client</module>
   </modules>
 </project>

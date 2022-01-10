@@ -7,7 +7,7 @@
   <parent>
     <groupId>pl.adamzylinski.t3</groupId>
     <artifactId>faresinfo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>ear</artifactId>
@@ -20,14 +20,6 @@
       <groupId>pl.adamzylinski.t3</groupId>
       <artifactId>servlet</artifactId>
       <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>pl.adamzylinski.t3</groupId>
-      <artifactId>primary-source</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>pl.adamzylinski.t3</groupId>
-      <artifactId>logging</artifactId>
     </dependency>
   </dependencies>
 
